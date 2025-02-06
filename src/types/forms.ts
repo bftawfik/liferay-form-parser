@@ -9,26 +9,47 @@ interface ValidationType {
   errorMessage: string;
 }
 
+type ParagraphInputControl = "paragraph";
 type TextInputControl = "text";
-type RadioInputControl = "radio";
-type ImageInputControl = "image";
 type SelectInputControl = "select";
-type RichTextInputControl = "rich_text";
-type FieldsetInputControl = "fieldset";
+type RadioInputControl = "radio";
 type CheckboxMultipleInputControl = "checkbox_multiple";
+type GridInputControl = "grid";
 type DateInputControl = "date";
+type DateTimeInputControl = "date_time";
+type NumericInputControl = "numeric";
+type CheckboxInputControl = "checkbox";
+type ImageInputControl = "image";
+type RichTextInputControl = "rich_text";
 type DocumentLibraryInputControl = "document_library";
+type ColorInputControl = "color";
+type SearchLocationInputControl = "search_location";
+type SeparatorInputControl = "separator";
 
 type InputControl =
+  | ParagraphInputControl
   | TextInputControl
-  | RadioInputControl
-  | ImageInputControl
   | SelectInputControl
-  | RichTextInputControl
-  | FieldsetInputControl
+  | RadioInputControl
   | CheckboxMultipleInputControl
+  | GridInputControl
   | DateInputControl
-  | DocumentLibraryInputControl;
+  | DateTimeInputControl
+  | NumericInputControl
+  | CheckboxInputControl
+  | ImageInputControl
+  | RichTextInputControl
+  | DocumentLibraryInputControl
+  | ColorInputControl
+  | SearchLocationInputControl
+  | SeparatorInputControl;
+
+interface GridType {
+  columns: FormFieldOption[];
+  rows: FormFieldOption[];
+}
+
+//---------------------------------------------------------------
 
 interface FieldType {
   dataType: string;
@@ -46,6 +67,13 @@ interface FieldType {
   showLabel: boolean;
 }
 
+interface ParagraphFieldType extends FieldType {
+  inputControl: ParagraphInputControl;
+  text: string;
+  predefinedValue: string;
+  tooltip: string;
+}
+
 interface TextFieldType extends FieldType {
   inputControl: TextInputControl;
   placeholder: string;
@@ -53,6 +81,11 @@ interface TextFieldType extends FieldType {
   tooltip: string;
 }
 
+interface SelectFieldType extends FieldType {
+  inputControl: SelectInputControl;
+  predefinedValue: string;
+  tooltip: string;
+}
 interface RadioFieldType extends FieldType {
   inputControl: RadioInputControl;
   formFieldOptions: FormFieldOption[];
@@ -64,32 +97,17 @@ interface RadioFieldType extends FieldType {
   tooltip: string;
 }
 
-interface ImageFieldType extends FieldType {
-  inputControl: ImageInputControl;
-  predefinedValue: string;
-  tooltip: string;
-}
-
-interface SelectFieldType extends FieldType {
-  inputControl: SelectInputControl;
-  predefinedValue: string;
-  tooltip: string;
-}
-
-interface RichTextFieldType extends FieldType {
-  inputControl: RichTextInputControl;
-  predefinedValue: string;
-  tooltip: string;
-}
-
-interface FieldsetFieldType extends FieldType {
-  inputControl: FieldsetInputControl;
-}
-
 interface CheckboxMultipleFieldType extends FieldType {
   inputControl: CheckboxMultipleInputControl;
   predefinedValue: string;
   showAsSwitcher: boolean;
+  tooltip: string;
+}
+
+interface GridFieldType extends FieldType {
+  inputControl: GridInputControl;
+  grid: GridType;
+  predefinedValue: string;
   tooltip: string;
 }
 
@@ -100,22 +118,80 @@ interface DateFieldType extends FieldType {
   validation: ValidationType;
 }
 
+interface DateTimeFieldType extends FieldType {
+  inputControl: DateTimeInputControl;
+  predefinedValue: string;
+  tooltip: string;
+}
+
+interface NumericFieldType extends FieldType {
+  inputControl: NumericInputControl;
+  placeholder: string;
+  predefinedValue: string;
+  tooltip: string;
+}
+
+interface CheckboxFieldType extends FieldType {
+  inputControl: CheckboxInputControl;
+  predefinedValue: string;
+  showAsSwitcher: boolean;
+  tooltip: string;
+}
+
+interface ImageFieldType extends FieldType {
+  inputControl: ImageInputControl;
+  predefinedValue: string;
+  tooltip: string;
+}
+
+interface RichTextFieldType extends FieldType {
+  inputControl: RichTextInputControl;
+  predefinedValue: string;
+  tooltip: string;
+}
+
 interface DocumentLibraryFieldType extends FieldType {
   inputControl: DocumentLibraryInputControl;
   predefinedValue: string;
   tooltip: string;
 }
 
+interface ColorFieldType extends FieldType {
+  inputControl: ColorInputControl;
+  predefinedValue: string;
+  tooltip: string;
+}
+
+interface SearchLocationFieldType extends FieldType {
+  inputControl: SearchLocationInputControl;
+  predefinedValue: string;
+  placeholder: string;
+  tooltip: string;
+}
+
+interface SeparatorFieldType extends FieldType {
+  inputControl: SeparatorInputControl;
+  tooltip: string;
+}
+
 type AllFieldsType =
+  | ParagraphFieldType
   | TextFieldType
-  | RadioFieldType
-  | ImageFieldType
   | SelectFieldType
-  | RichTextFieldType
-  | FieldsetFieldType
+  | RadioFieldType
   | CheckboxMultipleFieldType
+  | GridFieldType
   | DateFieldType
-  | DocumentLibraryFieldType;
+  | DateTimeFieldType
+  | NumericFieldType
+  | CheckboxFieldType
+  | ImageFieldType
+  | RichTextFieldType
+  | DocumentLibraryFieldType
+  | ColorFieldType
+  | SearchLocationFieldType
+  | SeparatorFieldType;
+
 //---------------------------------------------------------------
 
 type FormPageType = {
@@ -123,6 +199,7 @@ type FormPageType = {
   headline: string;
   text: string;
 };
+
 interface StructureType {
   formPages: FormPageType[];
 }
@@ -130,4 +207,5 @@ interface StructureType {
 export interface FormDefinitionType {
   structure: StructureType;
 }
+
 //---------------------------------------------------------------
