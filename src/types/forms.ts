@@ -5,18 +5,30 @@ interface FormFieldOption {
   value: string;
 }
 
+interface ValidationType {
+  errorMessage: string;
+}
+
 type TextInputControl = "text";
 type RadioInputControl = "radio";
 type ImageInputControl = "image";
 type SelectInputControl = "select";
 type RichTextInputControl = "rich_text";
+type FieldsetInputControl = "fieldset";
+type CheckboxMultipleInputControl = "checkbox_multiple";
+type DateInputControl = "date";
+type DocumentLibraryInputControl = "document_library";
 
 type InputControl =
   | TextInputControl
   | RadioInputControl
   | ImageInputControl
   | SelectInputControl
-  | RichTextInputControl;
+  | RichTextInputControl
+  | FieldsetInputControl
+  | CheckboxMultipleInputControl
+  | DateInputControl
+  | DocumentLibraryInputControl;
 
 interface FieldType {
   dataType: string;
@@ -70,12 +82,40 @@ interface RichTextFieldType extends FieldType {
   tooltip: string;
 }
 
+interface FieldsetFieldType extends FieldType {
+  inputControl: FieldsetInputControl;
+}
+
+interface CheckboxMultipleFieldType extends FieldType {
+  inputControl: CheckboxMultipleInputControl;
+  predefinedValue: string;
+  showAsSwitcher: boolean;
+  tooltip: string;
+}
+
+interface DateFieldType extends FieldType {
+  inputControl: DateInputControl;
+  predefinedValue: string;
+  tooltip: string;
+  validation: ValidationType;
+}
+
+interface DocumentLibraryFieldType extends FieldType {
+  inputControl: DocumentLibraryInputControl;
+  predefinedValue: string;
+  tooltip: string;
+}
+
 type AllFieldsType =
   | TextFieldType
   | RadioFieldType
   | ImageFieldType
   | SelectFieldType
-  | RichTextFieldType;
+  | RichTextFieldType
+  | FieldsetFieldType
+  | CheckboxMultipleFieldType
+  | DateFieldType
+  | DocumentLibraryFieldType;
 //---------------------------------------------------------------
 
 type FormPageType = {
