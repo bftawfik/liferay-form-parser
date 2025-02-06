@@ -1,4 +1,4 @@
-type DisplayStyle = "singleline" | "singleline2";
+type DisplayStyle = "singleline" | "";
 
 interface FormFieldOption {
   label: string;
@@ -6,29 +6,80 @@ interface FormFieldOption {
 }
 
 type TextInputControl = "text";
-// type InputControl = TextInputControl;
+type RadioInputControl = "radio";
+type ImageInputControl = "image";
+type SelectInputControl = "select";
+type RichTextInputControl = "rich_text";
 
-interface TextFieldType {
+type InputControl =
+  | TextInputControl
+  | RadioInputControl
+  | ImageInputControl
+  | SelectInputControl
+  | RichTextInputControl;
+
+interface FieldType {
   dataType: string;
   displayStyle: DisplayStyle;
   formFieldOptions: FormFieldOption[];
   hasFormRules: boolean;
   immutable: boolean;
-  inputControl: TextInputControl;
+  inputControl: InputControl;
   label: string;
   localizable: boolean;
   multiple: boolean;
   name: string;
+  repeatable: boolean;
+  required: boolean;
+  showLabel: boolean;
+}
+
+interface TextFieldType extends FieldType {
+  inputControl: TextInputControl;
   placeholder: string;
+  predefinedValue: string;
+  tooltip: string;
+}
+
+interface RadioFieldType extends FieldType {
+  inputControl: RadioInputControl;
+  formFieldOptions: FormFieldOption[];
+  multiple: boolean;
   predefinedValue: string;
   repeatable: boolean;
   required: boolean;
   showLabel: boolean;
   tooltip: string;
 }
-type FieldType = TextFieldType;
+
+interface ImageFieldType extends FieldType {
+  inputControl: ImageInputControl;
+  predefinedValue: string;
+  tooltip: string;
+}
+
+interface SelectFieldType extends FieldType {
+  inputControl: SelectInputControl;
+  predefinedValue: string;
+  tooltip: string;
+}
+
+interface RichTextFieldType extends FieldType {
+  inputControl: RichTextInputControl;
+  predefinedValue: string;
+  tooltip: string;
+}
+
+type AllFieldsType =
+  | TextFieldType
+  | RadioFieldType
+  | ImageFieldType
+  | SelectFieldType
+  | RichTextFieldType;
+//---------------------------------------------------------------
+
 type FormPageType = {
-  formFields: FieldType[];
+  formFields: AllFieldsType[];
   headline: string;
   text: string;
 };
@@ -39,3 +90,4 @@ interface StructureType {
 export interface FormDefinitionType {
   structure: StructureType;
 }
+//---------------------------------------------------------------
