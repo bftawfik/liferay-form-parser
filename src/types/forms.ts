@@ -1,6 +1,6 @@
 type DisplayStyle = "singleline" | "";
 
-interface FormFieldOption {
+export interface FormFieldOption {
   label: string;
   value: string;
 }
@@ -51,7 +51,7 @@ interface GridType {
 
 //---------------------------------------------------------------
 
-interface FieldType {
+export interface FieldType {
   dataType: string;
   displayStyle: DisplayStyle;
   formFieldOptions: FormFieldOption[];
