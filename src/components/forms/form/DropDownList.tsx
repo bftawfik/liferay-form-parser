@@ -1,6 +1,5 @@
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { FormFieldOption } from "../../../types/forms";
-import { useState } from "react";
 
 export const DropDownList = ({ options }: { options: FormFieldOption[] }) => {
   if (options) {
