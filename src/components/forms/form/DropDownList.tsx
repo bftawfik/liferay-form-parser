@@ -1,17 +1,13 @@
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
-import { FormFieldOption } from "../../../types/forms";
+import { FieldType, FormFieldOption } from "../../../types/forms";
 
-export const DropDownList = ({
-  options,
-  label,
-}: {
-  options: FormFieldOption[];
-  label: string;
-}) => {
-  if (options) {
+export const DropDownList = ({ formData }: { formData: FieldType }) => {
+  if (formData.formFieldOptions) {
     return (
       <div className="mt-4">
-        <h6 className="text-lg mb-2">{label}</h6>
+        {formData.showLabel && (
+          <h6 className="text-lg mb-2">{formData.label}</h6>
+        )}
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-autowidth-label">
             Choose an option
@@ -22,7 +18,7 @@ export const DropDownList = ({
             fullWidth
             label="Choose an option"
           >
-            {options.map((option: FormFieldOption) => {
+            {formData.formFieldOptions.map((option: FormFieldOption) => {
               return (
                 <MenuItem
                   key={option.value}
@@ -34,6 +30,9 @@ export const DropDownList = ({
               );
             })}
           </Select>
+          {formData.tooltip && (
+            <h6 className="text-sm mt-2 text-gray-400">{formData.tooltip}</h6>
+          )}
         </FormControl>
       </div>
     );

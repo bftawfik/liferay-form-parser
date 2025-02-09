@@ -1,18 +1,12 @@
-import { FormFieldOption } from "../../../types/forms";
+import { FieldType, FormFieldOption } from "../../../types/forms";
 import { Checkbox, FormControlLabel, FormControl } from "@mui/material";
 
-export const CheckBoxMultiple = ({
-  options,
-  label,
-}: {
-  options: FormFieldOption[];
-  label: string;
-}) => {
-  if (options) {
+export const CheckBoxMultiple = ({ formData }: { formData: FieldType }) => {
+  if (formData.formFieldOptions) {
     return (
       <FormControl>
-        <h6 className="text-lg">{label}</h6>
-        {options.map((option: FormFieldOption) => {
+        {formData.showLabel && <h6 className="text-lg">{formData.label}</h6>}
+        {formData.formFieldOptions.map((option: FormFieldOption) => {
           return (
             <FormControlLabel
               key={option.value}
@@ -21,6 +15,9 @@ export const CheckBoxMultiple = ({
             />
           );
         })}
+        {formData.tooltip && (
+          <h6 className="text-sm mt-2 text-gray-400">{formData.tooltip}</h6>
+        )}
       </FormControl>
     );
   } else {

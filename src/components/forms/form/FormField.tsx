@@ -9,34 +9,19 @@ export const FormField = ({ formData }: { formData: FieldType }) => {
   let formSelection: JSX.Element | null = null;
   switch (formData?.inputControl) {
     case "checkbox_multiple":
-      formSelection = (
-        <CheckBoxMultiple
-          options={formData.formFieldOptions}
-          label={formData.label}
-        />
-      );
+      formSelection = <CheckBoxMultiple formData={formData} />;
       break;
     case "radio":
-      formSelection = (
-        <SingleSelection
-          options={formData.formFieldOptions}
-          label={formData.label}
-        />
-      );
+      formSelection = <SingleSelection formData={formData} />;
       break;
     case "select":
-      formSelection = (
-        <DropDownList
-          options={formData.formFieldOptions}
-          label={formData.label}
-        />
-      );
+      formSelection = <DropDownList formData={formData} />;
       break;
     case "checkbox":
-      formSelection = <SingleCheckbox label={formData.label} />;
+      formSelection = <SingleCheckbox formData={formData} />;
       break;
     case "numeric":
-      formSelection = <Numeric label={formData.label} />;
+      formSelection = <Numeric formData={formData} />;
       break;
 
     default:

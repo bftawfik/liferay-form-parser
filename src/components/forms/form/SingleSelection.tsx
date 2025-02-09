@@ -1,4 +1,4 @@
-import { FormFieldOption } from "../../../types/forms";
+import { FieldType, FormFieldOption } from "../../../types/forms";
 import {
   FormControl,
   FormControlLabel,
@@ -6,23 +6,17 @@ import {
   RadioGroup,
 } from "@mui/material";
 
-export const SingleSelection = ({
-  options,
-  label,
-}: {
-  options: FormFieldOption[];
-  label: string;
-}) => {
-  if (options) {
+export const SingleSelection = ({ formData }: { formData: FieldType }) => {
+  if (formData.formFieldOptions) {
     return (
       <FormControl>
-        <h6 className="text-lg">{label}</h6>
+        {formData.showLabel && <h6 className="text-lg">{formData.label}</h6>}
         <RadioGroup
           row
           aria-labelledby="demo-row-radio-buttons-group-label"
           name="row-radio-buttons-group"
         >
-          {options.map((option: any) => {
+          {formData.formFieldOptions.map((option: any) => {
             return (
               <FormControlLabel
                 key={option.value}
@@ -33,6 +27,9 @@ export const SingleSelection = ({
             );
           })}
         </RadioGroup>
+        {formData.tooltip && (
+          <h6 className="text-sm mt-2 text-gray-400">{formData.tooltip}</h6>
+        )}
       </FormControl>
     );
   } else {
