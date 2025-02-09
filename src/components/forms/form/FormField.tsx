@@ -1,3 +1,4 @@
+import { TextField } from "@mui/material";
 import { FieldType } from "../../../types/forms";
 import { CheckBoxMultiple } from "./CheckBoxMultiple";
 import { DropDownList } from "./DropDownList";
@@ -5,6 +6,7 @@ import { DropDownList } from "./DropDownList";
 import { Numeric } from "./Numeric";
 import { SingleCheckbox } from "./SingleCheckbox";
 import { SingleSelection } from "./SingleSelection";
+import { TextFieldForm } from "./TextField";
 export const FormField = ({ formData }: { formData: FieldType }) => {
   let formSelection: JSX.Element | null = null;
   switch (formData?.inputControl) {
@@ -23,7 +25,9 @@ export const FormField = ({ formData }: { formData: FieldType }) => {
     case "numeric":
       formSelection = <Numeric formData={formData} />;
       break;
-
+    case "text":
+      formSelection = <TextFieldForm formData={formData} />;
+      break;
     default:
       formSelection = <div>no options</div>;
   }
