@@ -8,12 +8,15 @@ import {
 
 export const SingleSelection = ({
   options,
+  label,
 }: {
   options: FormFieldOption[];
+  label: string;
 }) => {
   if (options) {
     return (
       <FormControl>
+        <h6 className="text-lg">{label}</h6>
         <RadioGroup
           row
           aria-labelledby="demo-row-radio-buttons-group-label"
