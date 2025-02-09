@@ -196,7 +196,7 @@ type AllFieldsType =
 
 //---------------------------------------------------------------
 
-type FormPageType = {
+export type FormPageType = {
   formFields: AllFieldsType[];
   headline: string;
   text: string;
