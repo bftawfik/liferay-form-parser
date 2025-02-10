@@ -67,6 +67,7 @@ export interface FieldType {
   showLabel: boolean;
   tooltip?: string;
   placeholder?: string;
+  predefinedValue?: string;
 }
 
 interface ParagraphFieldType extends FieldType {

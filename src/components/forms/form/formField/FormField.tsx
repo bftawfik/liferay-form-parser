@@ -5,6 +5,8 @@ import DropDownList from "../allFormFields/dropDownList/DropDownList";
 import SingleCheckbox from "../allFormFields/singleCheckbox/SingleCheckbox";
 import Numeric from "../allFormFields/numeric/Numeric";
 import SingleSelection from "../allFormFields/singleSelection/SingleSelection";
+import DateFormField from "../allFormFields/dateFormField/DateFormField";
+import DateAndTimeField from "../allFormFields/dateTimeField/DateAndTimeField";
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 
 interface FormFieldType {
@@ -38,6 +40,12 @@ export const FormField: React.FC<FormFieldType> = ({
       formSelection = (
         <TextField register={register} errors={errors} formData={formData} />
       );
+      break;
+    case "date":
+      formSelection = <DateFormField formData={formData} />;
+      break;
+    case "date_time":
+      formSelection = <DateAndTimeField formData={formData} />;
       break;
     default:
       formSelection = <div>no options</div>;
