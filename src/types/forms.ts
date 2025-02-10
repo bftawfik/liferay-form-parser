@@ -1,4 +1,4 @@
-type DisplayStyle = "singleline" | "";
+type DisplayStyle = "singleline" | "multiline" | "";
 
 export interface FormFieldOption {
   label: string;
@@ -68,6 +68,7 @@ export interface FieldType {
   tooltip?: string;
   placeholder?: string;
   predefinedValue?: string;
+  text?:string;
 }
 
 interface ParagraphFieldType extends FieldType {

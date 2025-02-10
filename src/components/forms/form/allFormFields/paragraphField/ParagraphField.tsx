@@ -4,13 +4,17 @@ import Box from "@mui/material/Box";
 import MuiTextField from "@mui/material/TextField";
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 import { FormLabelAndTooltip } from "../../HelperComponents/FormLabelAndTooltip";
-interface TextFieldType {
+interface ParagraphFieldType {
   formData: FieldType;
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors<FieldValues>;
 }
 
-const TextField: React.FC<TextFieldType> = ({ formData, register, errors }) => {
+const ParagraphField: React.FC<ParagraphFieldType> = ({
+  formData,
+  register,
+  errors,
+}) => {
   return (
     <FormControl fullWidth>
       <FormLabelAndTooltip
@@ -20,16 +24,17 @@ const TextField: React.FC<TextFieldType> = ({ formData, register, errors }) => {
       >
         <Box
           component="form"
-          sx={{ "& > :not(style)": { mt: 2, width: "100%" } }}
+          sx={{ "& .MuiTextField-root": { mt: 1, width: "100%" } }}
           noValidate
           autoComplete="off"
         >
           <MuiTextField
             id="outlined-basic"
             label={formData.placeholder}
+            multiline
+            rows={4}
+            defaultValue={formData.text}
             variant="outlined"
-            multiline={formData.displayStyle === "multiline"}
-            rows={formData.displayStyle === "multiline" ? 4 : 1}
             {...register(formData.name)}
           />
         </Box>
@@ -40,4 +45,4 @@ const TextField: React.FC<TextFieldType> = ({ formData, register, errors }) => {
     </FormControl>
   );
 };
-export default TextField;
+export default ParagraphField;

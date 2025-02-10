@@ -9,6 +9,8 @@ import DateFormField from "../allFormFields/dateFormField/DateFormField";
 import DateAndTimeField from "../allFormFields/dateTimeField/DateAndTimeField";
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 import UploadFiles from "../allFormFields/uploadFiles/UploadFiles";
+import ParagraphField from "../allFormFields/paragraphField/ParagraphField";
+import Separator from "../allFormFields/seperator/Seperator";
 
 interface FormFieldType {
   formData: FieldType;
@@ -38,6 +40,7 @@ export const FormField: React.FC<FormFieldType> = ({
       formSelection = <Numeric formData={formData} />;
       break;
     case "text":
+      console.log(formData, "formData");
       formSelection = (
         <TextField register={register} errors={errors} formData={formData} />
       );
@@ -50,6 +53,18 @@ export const FormField: React.FC<FormFieldType> = ({
       break;
     case "document_library":
       formSelection = <UploadFiles formData={formData} />;
+      break;
+    case "paragraph":
+      formSelection = (
+        <ParagraphField
+          formData={formData}
+          errors={errors}
+          register={register}
+        />
+      );
+      break;
+    case "separator":
+      formSelection = <Separator formData={formData} />;
       break;
     default:
       formSelection = <div>no options</div>;

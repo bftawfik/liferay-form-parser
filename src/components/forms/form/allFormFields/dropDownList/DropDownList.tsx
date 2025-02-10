@@ -15,13 +15,17 @@ const DropDownList: React.FC<DropDownListType> = ({ formData }) => {
             tooltip={formData.tooltip}
             showLabel={formData.showLabel}
           >
-            <InputLabel id="demo-simple-select-autowidth-label">
+            <InputLabel
+              id="demo-simple-select-autowidth-label"
+              sx={{ mt: 5.5 }}
+            >
               Choose an option
             </InputLabel>
             <Select
               labelId="demo-simple-select-autowidth-label"
               id="demo-simple-select-autowidth"
               fullWidth
+              sx={{ mt: 2 }}
               label="Choose an option"
             >
               {formData.formFieldOptions.map((option: FormFieldOption) => {
