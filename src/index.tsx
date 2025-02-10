@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route, Routes } from "react-router";
-import { Form } from "./components/forms/form/Aform";
+import { Form } from "./components/forms/form/Form";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
