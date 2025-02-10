@@ -6,18 +6,23 @@ import { FormPageType } from "../../../../types/forms";
 import Button from "@mui/material/Button";
 import { Page } from "../page/page";
 import { FormField } from "../FormField";
+import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 
 interface StepperComponentProps {
   pages: FormPageType[];
   activeStep: number;
   handleBack: () => void;
   handleNext: () => void;
+  register: UseFormRegister<FieldValues>;
+  errors: FieldErrors<FieldValues>;
 }
 export const StepperComponent: React.FC<StepperComponentProps> = ({
   pages,
   activeStep,
   handleBack,
   handleNext,
+  register,
+  errors,
 }) => {
   const activePage = pages[activeStep];
   return (
@@ -33,11 +38,18 @@ export const StepperComponent: React.FC<StepperComponentProps> = ({
       )}
 
       <Box sx={{ width: "100%" }}>
-        <Page headline={activePage.headline} text={activePage.text}>
-          {activePage.formFields.map((formField) => (
-            <FormField key={formField.name} formData={formField} />
-          ))}
-        </Page>
+        {activePage && (
+          <Page headline={activePage?.headline} text={activePage?.text}>
+            {activePage?.formFields.map((formField) => (
+              <FormField
+                key={formField.name}
+                formData={formField}
+                register={register}
+                errors={errors}
+              />
+            ))}
+          </Page>
+        )}
       </Box>
       {pages.length > 1 ? (
         <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
@@ -51,13 +63,18 @@ export const StepperComponent: React.FC<StepperComponentProps> = ({
           </Button>
           <Box sx={{ flex: "1 1 auto" }} />
 
-          <Button onClick={handleNext}>
-            {activeStep === pages.length - 1 ? "Finish" : "Next"}
+          <Button
+            onClick={activeStep === pages.length - 1 ? undefined : handleNext}
+            type={activeStep === pages.length - 1 ? "submit" : "button"}
+          >
+            {activeStep === pages.length - 1 ? "Submit" : "Next"}
           </Button>
         </Box>
       ) : (
         <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-          <Button onClick={handleNext}>Finish</Button>
+          <Button onClick={handleNext} type="submit">
+            Submit
+          </Button>
         </Box>
       )}
     </Box>

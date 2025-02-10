@@ -1,4 +1,3 @@
-import { TextField } from "@mui/material";
 import { FieldType } from "../../../types/forms";
 import { CheckBoxMultiple } from "./CheckBoxMultiple";
 import { DropDownList } from "./DropDownList";
@@ -7,7 +6,18 @@ import { Numeric } from "./Numeric";
 import { SingleCheckbox } from "./SingleCheckbox";
 import { SingleSelection } from "./SingleSelection";
 import { TextFieldForm } from "./TextField";
-export const FormField = ({ formData }: { formData: FieldType }) => {
+import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
+
+interface FormFieldType {
+  formData: FieldType;
+  register: UseFormRegister<FieldValues>;
+  errors: FieldErrors<FieldValues>;
+}
+export const FormField: React.FC<FormFieldType> = ({
+  formData,
+  register,
+  errors,
+}) => {
   let formSelection: JSX.Element | null = null;
   switch (formData?.inputControl) {
     case "checkbox_multiple":
@@ -26,7 +36,13 @@ export const FormField = ({ formData }: { formData: FieldType }) => {
       formSelection = <Numeric formData={formData} />;
       break;
     case "text":
-      formSelection = <TextFieldForm formData={formData} />;
+      formSelection = (
+        <TextFieldForm
+          register={register}
+          errors={errors}
+          formData={formData}
+        />
+      );
       break;
     default:
       formSelection = <div>no options</div>;

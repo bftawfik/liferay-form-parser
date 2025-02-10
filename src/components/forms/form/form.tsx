@@ -2,10 +2,10 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { FormDefinitionType } from "../../../types/forms";
 import { apiUrls } from "../../../constants/apiUrls";
-
 import { StepperComponent } from "./stepperComponent/stepperComponent";
 import Loader from "../../loader/Loader";
 import { ErrorMsg } from "../../errorMsg/errorMsg";
+import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 
 export const Form = () => {
   const [data, setData] = useState<FormDefinitionType | null>(null);
@@ -13,6 +13,13 @@ export const Form = () => {
   const [error, setError] = useState<string | null>(null);
   const [activeStep, setActiveStep] = React.useState(0);
 
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  console.log("Watch: ", watch());
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -24,6 +31,9 @@ export const Form = () => {
   // const handleReset = () => {
   //   setActiveStep(0);
   // };
+
+  const onSubmit: SubmitHandler<FieldValues> = (data) =>
+    console.log("Submit: ", data);
 
   const { formid } = useParams();
 
@@ -68,12 +78,16 @@ export const Form = () => {
       {loading && <Loader />}
       {!data && <ErrorMsg message={error ?? "No Data"} />}
       {data && (
-        <StepperComponent
-          pages={data.structure.formPages}
-          activeStep={activeStep}
-          handleBack={handleBack}
-          handleNext={handleNext}
-        />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <StepperComponent
+            pages={data.structure.formPages}
+            activeStep={activeStep}
+            handleBack={handleBack}
+            handleNext={handleNext}
+            register={register}
+            errors={errors}
+          />
+        </form>
       )}
     </div>
   );
