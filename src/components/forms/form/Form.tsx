@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { FormDefinitionType } from "../../../types/forms";
 import { apiUrls } from "../../../constants/apiUrls";
-import { StepperComponent } from "./stepperComponent/AstepperComponent";
+import { StepperComponent } from "./stepperComponent/StepperComponent";
 import Loader from "../../loader/Loader";
 import { ErrorMassage } from "../../errorMassage/ErrorMassage";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
