@@ -8,6 +8,7 @@ import SingleSelection from "../allFormFields/singleSelection/SingleSelection";
 import DateFormField from "../allFormFields/dateFormField/DateFormField";
 import DateAndTimeField from "../allFormFields/dateTimeField/DateAndTimeField";
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
+import UploadFiles from "../allFormFields/uploadFiles/UploadFiles";
 
 interface FormFieldType {
   formData: FieldType;
@@ -46,6 +47,9 @@ export const FormField: React.FC<FormFieldType> = ({
       break;
     case "date_time":
       formSelection = <DateAndTimeField formData={formData} />;
+      break;
+    case "document_library":
+      formSelection = <UploadFiles formData={formData} />;
       break;
     default:
       formSelection = <div>no options</div>;

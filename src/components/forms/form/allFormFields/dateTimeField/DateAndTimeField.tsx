@@ -5,8 +5,10 @@ import dayjs, { Dayjs } from "dayjs";
 import { useState } from "react";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-
-const DateAndTimeField = ({ formData }: { formData: FieldType }) => {
+interface DateAndTimeFieldType {
+  formData: FieldType;
+}
+const DateAndTimeField: React.FC<DateAndTimeFieldType> = ({ formData }) => {
   const dateString = formData.predefinedValue;
   const preDefinedDate = dateString ? dayjs(dateString) : null;
   const [currentDate, SetCurrentDate] = useState<Dayjs | null>(preDefinedDate);

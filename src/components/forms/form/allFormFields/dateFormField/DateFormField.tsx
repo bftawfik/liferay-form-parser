@@ -7,7 +7,10 @@ import { useState } from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
-const DateFormField = ({ formData }: { formData: FieldType }) => {
+interface DateFieldType {
+  formData: FieldType;
+}
+const DateFormField: React.FC<DateFieldType> = ({ formData }) => {
   const dateString = formData.predefinedValue;
   const preDefinedDate = dateString ? dayjs(dateString) : null;
   const [currentDate, SetCurrentDate] = useState<Dayjs | null>(preDefinedDate);
