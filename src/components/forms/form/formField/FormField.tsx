@@ -40,7 +40,6 @@ export const FormField: React.FC<FormFieldType> = ({
       formSelection = <Numeric formData={formData} />;
       break;
     case "text":
-      console.log(formData, "formData");
       formSelection = (
         <TextField register={register} errors={errors} formData={formData} />
       );

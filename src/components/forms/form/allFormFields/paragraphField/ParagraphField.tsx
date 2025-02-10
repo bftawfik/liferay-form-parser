@@ -4,6 +4,8 @@ import Box from "@mui/material/Box";
 import MuiTextField from "@mui/material/TextField";
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 import { FormLabelAndTooltip } from "../../HelperComponents/FormLabelAndTooltip";
+import parse from "html-react-parser"; // ✅ Import html-react-parser
+
 interface ParagraphFieldType {
   formData: FieldType;
   register: UseFormRegister<FieldValues>;
@@ -28,15 +30,7 @@ const ParagraphField: React.FC<ParagraphFieldType> = ({
           noValidate
           autoComplete="off"
         >
-          <MuiTextField
-            id="outlined-basic"
-            label={formData.placeholder}
-            multiline
-            rows={4}
-            defaultValue={formData.text}
-            variant="outlined"
-            {...register(formData.name)}
-          />
+          {formData.text && <div className="mt-2">{parse(formData.text)}</div>}
         </Box>
         {errors[formData.name]?.message && (
           <p role="alert">{`${errors[formData.name]?.message}`}</p>
