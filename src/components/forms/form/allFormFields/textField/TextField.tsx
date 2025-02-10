@@ -1,18 +1,16 @@
 import { FormControl } from "@mui/material";
-import { FieldType } from "../../../types/forms";
+import { FieldType } from "../../../../../types/forms";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
+import MuiTextField from "@mui/material/TextField";
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
-interface TextFieldFormType {
+
+interface TextFieldType {
   formData: FieldType;
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors<FieldValues>;
 }
-export const TextFieldForm: React.FC<TextFieldFormType> = ({
-  formData,
-  register,
-  errors,
-}) => {
+
+const TextField: React.FC<TextFieldType> = ({ formData, register, errors }) => {
   return (
     <FormControl fullWidth>
       {formData.showLabel && <h6 className="text-lg">{formData.label}</h6>}
@@ -22,7 +20,7 @@ export const TextFieldForm: React.FC<TextFieldFormType> = ({
         noValidate
         autoComplete="off"
       >
-        <TextField
+        <MuiTextField
           id="outlined-basic"
           label={formData.placeholder}
           variant="outlined"
@@ -38,3 +36,4 @@ export const TextFieldForm: React.FC<TextFieldFormType> = ({
     </FormControl>
   );
 };
+export default TextField;

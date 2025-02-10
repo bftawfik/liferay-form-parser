@@ -1,7 +1,11 @@
-import { FieldType, FormFieldOption } from "../../../types/forms";
+import { FieldType, FormFieldOption } from "../../../../../types/forms";
 import { Checkbox, FormControlLabel, FormControl } from "@mui/material";
 
-export const CheckBoxMultiple = ({ formData }: { formData: FieldType }) => {
+interface CheckBoxMultipleType {
+  formData: FieldType;
+}
+
+const CheckBoxMultiple: React.FC<CheckBoxMultipleType> = ({ formData }) => {
   if (formData.formFieldOptions) {
     return (
       <FormControl>
@@ -24,3 +28,5 @@ export const CheckBoxMultiple = ({ formData }: { formData: FieldType }) => {
     return <div>No options available</div>;
   }
 };
+
+export default CheckBoxMultiple;

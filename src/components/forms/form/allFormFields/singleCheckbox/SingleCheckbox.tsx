@@ -1,7 +1,11 @@
 import { FormControl, FormControlLabel, Checkbox } from "@mui/material";
-import { FieldType, FormFieldOption } from "../../../types/forms";
+import { FieldType } from "../../../../../types/forms";
 
-export const SingleCheckbox = ({ formData }: { formData: FieldType }) => {
+interface SingleCheckboxType {
+  formData: FieldType;
+}
+
+const SingleCheckbox: React.FC<SingleCheckboxType> = ({ formData }) => {
   return (
     <FormControl>
       <FormControlLabel control={<Checkbox />} label={formData.label} />
@@ -11,3 +15,5 @@ export const SingleCheckbox = ({ formData }: { formData: FieldType }) => {
     </FormControl>
   );
 };
+
+export default SingleCheckbox;

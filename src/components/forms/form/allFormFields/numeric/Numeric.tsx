@@ -1,7 +1,11 @@
 import { Unstable_NumberInput as NumberInput } from "@mui/base";
-import { FieldType } from "../../../types/forms";
+import { FieldType } from "../../../../../types/forms";
 
-export const Numeric = ({ formData }: { formData: FieldType }) => {
+interface NumericType {
+  formData: FieldType;
+}
+
+const Numeric: React.FC<NumericType> = ({ formData }) => {
   return (
     <div>
       {formData.showLabel && <h6 className="text-lg">{formData.label}</h6>}
@@ -15,3 +19,5 @@ export const Numeric = ({ formData }: { formData: FieldType }) => {
     </div>
   );
 };
+
+export default Numeric;

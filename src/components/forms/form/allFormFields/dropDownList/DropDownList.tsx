@@ -1,7 +1,11 @@
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
-import { FieldType, FormFieldOption } from "../../../types/forms";
+import { FieldType, FormFieldOption } from "../../../../../types/forms";
 
-export const DropDownList = ({ formData }: { formData: FieldType }) => {
+interface DropDownListType {
+  formData: FieldType;
+}
+
+const DropDownList: React.FC<DropDownListType> = ({ formData }) => {
   if (formData.formFieldOptions) {
     return (
       <div className="mt-4">
@@ -40,3 +44,5 @@ export const DropDownList = ({ formData }: { formData: FieldType }) => {
     return <div>No options available</div>;
   }
 };
+
+export default DropDownList;

@@ -1,4 +1,4 @@
-import { FieldType, FormFieldOption } from "../../../types/forms";
+import { FieldType } from "../../../../../types/forms";
 import {
   FormControl,
   FormControlLabel,
@@ -6,7 +6,11 @@ import {
   RadioGroup,
 } from "@mui/material";
 
-export const SingleSelection = ({ formData }: { formData: FieldType }) => {
+interface SingleSelectionType {
+  formData: FieldType;
+}
+
+const SingleSelection: React.FC<SingleSelectionType> = ({ formData }) => {
   if (formData.formFieldOptions) {
     return (
       <FormControl>
@@ -36,3 +40,4 @@ export const SingleSelection = ({ formData }: { formData: FieldType }) => {
     return <div>No options available</div>;
   }
 };
+export default SingleSelection;

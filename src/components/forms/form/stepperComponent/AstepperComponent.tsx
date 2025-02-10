@@ -4,8 +4,8 @@ import Stepper from "@mui/material/Stepper";
 import Box from "@mui/system/Box";
 import { FormPageType } from "../../../../types/forms";
 import Button from "@mui/material/Button";
-import { Page } from "../page/page";
-import { FormField } from "../FormField";
+import { FormPage } from "../formPage/FormPage";
+import { FormField } from "../formField/FormField";
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 
 interface StepperComponentProps {
@@ -39,7 +39,7 @@ export const StepperComponent: React.FC<StepperComponentProps> = ({
 
       <Box sx={{ width: "100%" }}>
         {activePage && (
-          <Page headline={activePage?.headline} text={activePage?.text}>
+          <FormPage headline={activePage?.headline} text={activePage?.text}>
             {activePage?.formFields.map((formField) => (
               <FormField
                 key={formField.name}
@@ -48,7 +48,7 @@ export const StepperComponent: React.FC<StepperComponentProps> = ({
                 errors={errors}
               />
             ))}
-          </Page>
+          </FormPage>
         )}
       </Box>
       {pages.length > 1 ? (

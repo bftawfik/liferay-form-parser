@@ -2,10 +2,12 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { FormDefinitionType } from "../../../types/forms";
 import { apiUrls } from "../../../constants/apiUrls";
-import { StepperComponent } from "./stepperComponent/stepperComponent";
+import { StepperComponent } from "./stepperComponent/AstepperComponent";
 import Loader from "../../loader/Loader";
-import { ErrorMsg } from "../../errorMsg/errorMsg";
+import { ErrorMassage } from "../../errorMassage/ErrorMassage";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 export const Form = () => {
   const [data, setData] = useState<FormDefinitionType | null>(null);
@@ -13,13 +15,26 @@ export const Form = () => {
   const [error, setError] = useState<string | null>(null);
   const [activeStep, setActiveStep] = React.useState(0);
 
+  const schema = yup
+    .object({
+      firstName: yup.string().required(),
+      age: yup.number().positive().integer().required(),
+    })
+    .required();
+
+  console.log(data);
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    // resolver: yupResolver(schema),
+  });
+
   console.log("Watch: ", watch());
+
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -76,7 +91,7 @@ export const Form = () => {
     <div className="m-14 p-8 bg-white shadow-lg rounded-lg ">
       <h3 className="text-4xl font-semibold mb-4 ">Form {formid}</h3>
       {loading && <Loader />}
-      {!data && <ErrorMsg message={error ?? "No Data"} />}
+      {!data && <ErrorMassage message={error ?? "No Data"} />}
       {data && (
         <form onSubmit={handleSubmit(onSubmit)}>
           <StepperComponent

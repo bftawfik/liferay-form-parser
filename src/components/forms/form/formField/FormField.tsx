@@ -1,11 +1,10 @@
-import { FieldType } from "../../../types/forms";
-import { CheckBoxMultiple } from "./CheckBoxMultiple";
-import { DropDownList } from "./DropDownList";
-
-import { Numeric } from "./Numeric";
-import { SingleCheckbox } from "./SingleCheckbox";
-import { SingleSelection } from "./SingleSelection";
-import { TextFieldForm } from "./TextField";
+import { FieldType } from "../../../../types/forms";
+import TextField from "../allFormFields/textField/TextField";
+import CheckBoxMultiple from "../allFormFields/checkBoxMultiple/CheckBoxMultiple";
+import DropDownList from "../allFormFields/dropDownList/DropDownList";
+import SingleCheckbox from "../allFormFields/singleCheckbox/SingleCheckbox";
+import Numeric from "../allFormFields/numeric/Numeric";
+import SingleSelection from "../allFormFields/singleSelection/SingleSelection";
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 
 interface FormFieldType {
@@ -37,11 +36,7 @@ export const FormField: React.FC<FormFieldType> = ({
       break;
     case "text":
       formSelection = (
-        <TextFieldForm
-          register={register}
-          errors={errors}
-          formData={formData}
-        />
+        <TextField register={register} errors={errors} formData={formData} />
       );
       break;
     default:
