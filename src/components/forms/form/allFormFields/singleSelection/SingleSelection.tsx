@@ -6,12 +6,23 @@ import {
   RadioGroup,
 } from "@mui/material";
 import { FormLabelAndTooltip } from "../../HelperComponents/FormLabelAndTooltip";
+import { useState } from "react";
 
 interface SingleSelectionType {
   formData: FieldType;
 }
 
 const SingleSelection: React.FC<SingleSelectionType> = ({ formData }) => {
+  const [selectedValue, setSelectedValue] = useState<string>(
+    formData.predefinedValue
+      ? JSON.parse(formData.predefinedValue as string)
+      : ""
+  );
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedValue(event.target.value);
+  };
+
   if (formData.formFieldOptions) {
     return (
       <FormControl>
@@ -21,6 +32,8 @@ const SingleSelection: React.FC<SingleSelectionType> = ({ formData }) => {
           showLabel={formData.showLabel}
         >
           <RadioGroup
+            value={selectedValue}
+            onChange={handleChange}
             row
             aria-labelledby="demo-row-radio-buttons-group-label"
             name="row-radio-buttons-group"
