@@ -1,6 +1,7 @@
-import { Unstable_NumberInput as NumberInput } from "@mui/base";
 import { FieldType } from "../../../../../types/forms";
 import { FormLabelAndTooltip } from "../../HelperComponents/FormLabelAndTooltip";
+import { FormControl } from "@mui/material";
+import MuiTextField from "@mui/material/TextField";
 
 interface NumericType {
   formData: FieldType;
@@ -8,18 +9,22 @@ interface NumericType {
 
 const Numeric: React.FC<NumericType> = ({ formData }) => {
   return (
-    <div>
+    <FormControl fullWidth>
       <FormLabelAndTooltip
         label={formData.label}
         tooltip={formData.tooltip}
         showLabel={formData.showLabel}
       >
-        <NumberInput
-          aria-label="Demo number input"
+        <MuiTextField
+          type="number"
           placeholder={formData.placeholder}
+          defaultValue={formData.predefinedValue}
+          variant="outlined"
+          sx={{ mt: 2 }}
+          fullWidth
         />
       </FormLabelAndTooltip>
-    </div>
+    </FormControl>
   );
 };
 

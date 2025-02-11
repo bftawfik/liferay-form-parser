@@ -27,6 +27,7 @@ const TextField: React.FC<TextFieldType> = ({ formData, register, errors }) => {
           <MuiTextField
             id="outlined-basic"
             label={formData.placeholder}
+            value={formData.predefinedValue}
             variant="outlined"
             multiline={formData.displayStyle === "multiline"}
             rows={formData.displayStyle === "multiline" ? 4 : 1}

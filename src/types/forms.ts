@@ -67,7 +67,7 @@ export interface FieldType {
   showLabel: boolean;
   tooltip?: string;
   placeholder?: string;
-  predefinedValue?: string;
+  predefinedValue?: string| number;
   text?:string;
 }
 
