@@ -114,7 +114,7 @@
 
 // export default DropDownList;
 import { useState } from "react";
-import { FormControl, TextField, Autocomplete, Chip, Box } from "@mui/material";
+import { FormControl, TextField, Autocomplete, Chip } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { FieldType, FormFieldOption } from "../../../../../types/forms";
 import { FormLabelAndTooltip } from "../../HelperComponents/FormLabelAndTooltip";
@@ -124,9 +124,24 @@ interface DropDownListType {
 }
 
 const DropDownList: React.FC<DropDownListType> = ({ formData }) => {
-  const [selectedValues, setSelectedValues] = useState<FormFieldOption[]>([]);
+  let predefinedValues: string[] = formData.predefinedValue
+    ? JSON.parse(formData.predefinedValue as string)
+    : [];
+
+  const [selectedValues, setSelectedValues] = useState<FormFieldOption[]>(
+    formData.multiple
+      ? formData.formFieldOptions.filter((opt) =>
+          predefinedValues.includes(opt.value)
+        )
+      : []
+  );
+
   const [selectedValue, setSelectedValue] = useState<FormFieldOption | null>(
-    null
+    !formData.multiple
+      ? formData.formFieldOptions.find((opt) =>
+          predefinedValues.includes(opt.value)
+        ) || null
+      : null
   );
 
   const handleChange = (
