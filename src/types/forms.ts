@@ -69,6 +69,7 @@ export interface FieldType {
   placeholder?: string;
   predefinedValue?: string| number;
   text?:string;
+  showAsSwitcher?: boolean;
 }
 
 interface ParagraphFieldType extends FieldType {

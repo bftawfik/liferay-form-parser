@@ -1,4 +1,4 @@
-import { FormControl, FormControlLabel, Checkbox } from "@mui/material";
+import { FormControl, FormControlLabel, Checkbox, Switch } from "@mui/material";
 import { FieldType } from "../../../../../types/forms";
 import { useState } from "react";
 
@@ -20,7 +20,13 @@ const SingleCheckbox: React.FC<SingleCheckboxType> = ({ formData }) => {
   return (
     <FormControl>
       <FormControlLabel
-        control={<Checkbox checked={selected} onChange={handleChange} />}
+        control={
+          formData.showAsSwitcher ? (
+            <Switch checked={selected} onChange={handleChange} />
+          ) : (
+            <Checkbox checked={selected} onChange={handleChange} />
+          )
+        }
         label={formData.label}
       />
       {formData.tooltip && (

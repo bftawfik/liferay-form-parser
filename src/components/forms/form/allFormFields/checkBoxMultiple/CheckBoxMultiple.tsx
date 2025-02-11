@@ -1,5 +1,5 @@
 import { FieldType, FormFieldOption } from "../../../../../types/forms";
-import { Checkbox, FormControlLabel, FormControl } from "@mui/material";
+import { Checkbox, FormControlLabel, FormControl, Switch } from "@mui/material";
 import { FormLabelAndTooltip } from "../../HelperComponents/FormLabelAndTooltip";
 import { useState } from "react";
 
@@ -34,11 +34,19 @@ const CheckBoxMultiple: React.FC<CheckBoxMultipleType> = ({ formData }) => {
               <FormControlLabel
                 key={option.value}
                 control={
-                  <Checkbox
-                    value={option.value}
-                    checked={selectedValues.includes(option.value)}
-                    onChange={handleChange}
-                  />
+                  formData.showAsSwitcher ? (
+                    <Switch
+                      value={option.value}
+                      checked={selectedValues.includes(option.value)}
+                      onChange={handleChange}
+                    />
+                  ) : (
+                    <Checkbox
+                      value={option.value}
+                      checked={selectedValues.includes(option.value)}
+                      onChange={handleChange}
+                    />
+                  )
                 }
                 label={option.label}
               />
