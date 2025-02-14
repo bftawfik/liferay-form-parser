@@ -1,13 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useParams, useSearchParams } from "react-router";
 import { FormDefinitionType } from "../../../types/forms";
+// import { FormDefinitionType, TextFieldType } from "../../../types/forms";
 import { apiUrls } from "../../../constants/apiUrls";
 import { StepperComponent } from "./stepperComponent/StepperComponent";
 import Loader from "../../loader/Loader";
 import { ErrorMassage } from "../../errorMassage/ErrorMassage";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { getLanguage } from "../../../helpers/lang";
+// import { yupResolver } from "@hookform/resolvers/yup";
+// import { schemaBuilder } from "../../../helpers/form";
 
 export const Form = () => {
   const [data, setData] = useState<FormDefinitionType | null>(null);
@@ -15,25 +17,19 @@ export const Form = () => {
   const [error, setError] = useState<string | null>(null);
   const [activeStep, setActiveStep] = React.useState(0);
 
-  const schema = yup
-    .object({
-      firstName: yup.string().required(),
-      age: yup.number().positive().integer().required(),
-    })
-    .required();
+  console.log("Data: ", data);
 
-  console.log(data);
+  // const schema = schemaBuilder(data?.definition.formPages || []);
 
+  // console.log("Schema: ", schema);
   const {
     register,
     handleSubmit,
-    watch,
+    // watch,
     formState: { errors },
   } = useForm({
     // resolver: yupResolver(schema),
   });
-
-  console.log("Watch: ", watch());
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -51,8 +47,12 @@ export const Form = () => {
     console.log("Submit: ", data);
 
   const { formid } = useParams();
+  const [searchParams] = useSearchParams();
+  const language = getLanguage(searchParams.get("lang"));
 
-  const apiURL = `${process.env.REACT_APP_API_SERVER_URL}:${process.env.REACT_APP_API_SERVER_PORT}${apiUrls.formById}`;
+  // const apiURL = `${process.env.REACT_APP_API_SERVER_URL}:${process.env.REACT_APP_API_SERVER_PORT}${apiUrls.formById}`;
+
+  const apiURL = `${process.env.REACT_APP_API_SERVER_URL}${apiUrls.formByIdMock}`;
 
   const fetchData = useCallback(async () => {
     const authHeader =
@@ -95,7 +95,8 @@ export const Form = () => {
       {data && (
         <form onSubmit={handleSubmit(onSubmit)}>
           <StepperComponent
-            pages={data.structure.formPages}
+            pages={data.definition.formPages}
+            language={language}
             activeStep={activeStep}
             handleBack={handleBack}
             handleNext={handleNext}

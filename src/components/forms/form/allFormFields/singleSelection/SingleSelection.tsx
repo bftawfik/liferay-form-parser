@@ -1,4 +1,4 @@
-import { FieldType } from "../../../../../types/forms";
+import { AllLanguages, RadioFieldType } from "../../../../../types/forms";
 import {
   FormControl,
   FormControlLabel,
@@ -7,28 +7,31 @@ import {
 } from "@mui/material";
 import { FormLabelAndTooltip } from "../../HelperComponents/FormLabelAndTooltip";
 import { useState } from "react";
+import { getValueOf } from "../../../../../helpers/lang";
 
 interface SingleSelectionType {
-  formData: FieldType;
+  formData: RadioFieldType;
+  language: AllLanguages;
 }
 
-const SingleSelection: React.FC<SingleSelectionType> = ({ formData }) => {
+const SingleSelection: React.FC<SingleSelectionType> = ({
+  formData,
+  language,
+}) => {
   const [selectedValue, setSelectedValue] = useState<string>(
-    formData.predefinedValue
-      ? JSON.parse(formData.predefinedValue as string)
-      : ""
+    getValueOf(formData.predefinedValue, language)
   );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedValue(event.target.value);
   };
 
-  if (formData.formFieldOptions) {
+  if (formData.options) {
     return (
       <FormControl>
         <FormLabelAndTooltip
-          label={formData.label}
-          tooltip={formData.tooltip}
+          label={getValueOf(formData.label, language)}
+          tooltip={getValueOf(formData.tip, language)}
           showLabel={formData.showLabel}
         >
           <RadioGroup
@@ -38,13 +41,13 @@ const SingleSelection: React.FC<SingleSelectionType> = ({ formData }) => {
             aria-labelledby="demo-row-radio-buttons-group-label"
             name="row-radio-buttons-group"
           >
-            {formData.formFieldOptions.map((option: any) => {
+            {formData.options.map((option) => {
               return (
                 <FormControlLabel
                   key={option.value}
                   value={option.value}
                   control={<Radio />}
-                  label={option.label}
+                  label={getValueOf(option.label, language)}
                 />
               );
             })}

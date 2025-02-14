@@ -2,9 +2,13 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { FieldType } from "../../../../../types/forms";
+import {
+  AllLanguages,
+  DocumentLibraryFieldType,
+} from "../../../../../types/forms";
 import { FormLabelAndTooltip } from "../../HelperComponents/FormLabelAndTooltip";
 import { FormControl } from "@mui/material";
+import { getValueOf } from "../../../../../helpers/lang";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -17,16 +21,17 @@ const VisuallyHiddenInput = styled("input")({
   whiteSpace: "nowrap",
   width: 1,
 });
-interface uploadFilesType {
-  formData: FieldType;
+interface UploadFilesType {
+  formData: DocumentLibraryFieldType;
+  language: AllLanguages;
 }
 
-const UploadFiles: React.FC<uploadFilesType> = ({ formData }) => {
+const UploadFiles: React.FC<UploadFilesType> = ({ formData, language }) => {
   return (
     <FormControl fullWidth>
       <FormLabelAndTooltip
-        label={formData.label}
-        tooltip={formData.tooltip}
+        label={getValueOf(formData.label, language)}
+        tooltip={getValueOf(formData.tip, language)}
         showLabel={formData.showLabel}
       >
         <Button

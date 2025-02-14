@@ -1,18 +1,19 @@
 import { FormControl, FormControlLabel, Checkbox, Switch } from "@mui/material";
-import { FieldType } from "../../../../../types/forms";
+import { AllLanguages, CheckboxFieldType } from "../../../../../types/forms";
 import { useState } from "react";
+import { getValueOf } from "../../../../../helpers/lang";
 
 interface SingleCheckboxType {
-  formData: FieldType;
+  formData: CheckboxFieldType;
+  language: AllLanguages;
 }
 
-const SingleCheckbox: React.FC<SingleCheckboxType> = ({ formData }) => {
+const SingleCheckbox: React.FC<SingleCheckboxType> = ({
+  formData,
+  language,
+}) => {
   const [selected, setSelected] = useState<boolean>(
-    formData.predefinedValue
-      ? JSON.parse(formData.predefinedValue as string)[0] === "true"
-        ? true
-        : false
-      : false
+    getValueOf(formData.predefinedValue, language) === "true"
   );
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelected(!selected);
@@ -27,10 +28,12 @@ const SingleCheckbox: React.FC<SingleCheckboxType> = ({ formData }) => {
             <Checkbox checked={selected} onChange={handleChange} />
           )
         }
-        label={formData.label}
+        label={getValueOf(formData.label, language)}
       />
       {formData.tooltip && (
-        <h6 className="text-sm mt-2 text-gray-400">{formData.tooltip}</h6>
+        <h6 className="text-sm mt-2 text-gray-400">
+          {getValueOf(formData.tip, language)}
+        </h6>
       )}
     </FormControl>
   );

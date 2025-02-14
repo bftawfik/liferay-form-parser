@@ -1,21 +1,28 @@
 import { FormControl } from "@mui/material";
-import { FieldType } from "../../../../../types/forms";
+import { AllLanguages, TextFieldType } from "../../../../../types/forms";
 import Box from "@mui/material/Box";
 import MuiTextField from "@mui/material/TextField";
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 import { FormLabelAndTooltip } from "../../HelperComponents/FormLabelAndTooltip";
-interface TextFieldType {
-  formData: FieldType;
+import { getValueOf } from "../../../../../helpers/lang";
+interface TextFieldPropsType {
+  formData: TextFieldType;
+  language: AllLanguages;
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors<FieldValues>;
 }
 
-const TextField: React.FC<TextFieldType> = ({ formData, register, errors }) => {
+const TextField: React.FC<TextFieldPropsType> = ({
+  formData,
+  language,
+  register,
+  errors,
+}) => {
   return (
     <FormControl fullWidth>
       <FormLabelAndTooltip
-        label={formData.label}
-        tooltip={formData.tooltip}
+        label={getValueOf(formData.label, language)}
+        tooltip={getValueOf(formData.tip, language)}
         showLabel={formData.showLabel}
       >
         <Box
@@ -26,8 +33,8 @@ const TextField: React.FC<TextFieldType> = ({ formData, register, errors }) => {
         >
           <MuiTextField
             id="outlined-basic"
-            label={formData.placeholder}
-            value={formData.predefinedValue}
+            label={getValueOf(formData.placeholder, language)}
+            value={getValueOf(formData.predefinedValue, language)}
             variant="outlined"
             multiline={formData.displayStyle === "multiline"}
             rows={formData.displayStyle === "multiline" ? 4 : 1}

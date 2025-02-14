@@ -1,32 +1,24 @@
 type DisplayStyle = "singleline" | "multiline" | "";
 
-export interface FormFieldOption {
-  label: string;
-  value: string;
-}
+export type ParagraphInputControl = "paragraph";
+export type TextInputControl = "text";
+export type SelectInputControl = "select";
+export type RadioInputControl = "radio";
+export type CheckboxMultipleInputControl = "checkbox_multiple";
+export type GridInputControl = "grid";
+export type DateInputControl = "date";
+export type DateTimeInputControl = "date_time";
+export type NumericInputControl = "numeric";
+export type CheckboxInputControl = "checkbox";
+export type ImageInputControl = "image";
+export type RichTextInputControl = "rich_text";
+export type DocumentLibraryInputControl = "document_library";
+export type ColorInputControl = "color";
+export type SearchLocationInputControl = "search_location";
+export type SeparatorInputControl = "separator";
+export type FieldsetInputControl = "fieldset";
 
-interface ValidationType {
-  errorMessage: string;
-}
-
-type ParagraphInputControl = "paragraph";
-type TextInputControl = "text";
-type SelectInputControl = "select";
-type RadioInputControl = "radio";
-type CheckboxMultipleInputControl = "checkbox_multiple";
-type GridInputControl = "grid";
-type DateInputControl = "date";
-type DateTimeInputControl = "date_time";
-type NumericInputControl = "numeric";
-type CheckboxInputControl = "checkbox";
-type ImageInputControl = "image";
-type RichTextInputControl = "rich_text";
-type DocumentLibraryInputControl = "document_library";
-type ColorInputControl = "color";
-type SearchLocationInputControl = "search_location";
-type SeparatorInputControl = "separator";
-
-type InputControl =
+export type InputControl =
   | ParagraphInputControl
   | TextInputControl
   | SelectInputControl
@@ -42,7 +34,8 @@ type InputControl =
   | DocumentLibraryInputControl
   | ColorInputControl
   | SearchLocationInputControl
-  | SeparatorInputControl;
+  | SeparatorInputControl
+  | FieldsetInputControl;
 
 interface GridType {
   columns: FormFieldOption[];
@@ -51,135 +44,252 @@ interface GridType {
 
 //---------------------------------------------------------------
 
+interface StructureType {
+  formPages: FormPageType[];
+}
+
+export interface FormDefinitionType {
+  structure: StructureType;
+}
+//---------------------------------------------------------------
+
+export type EnglishUS = "en_US";
+export type ArabicSA = "ar_SA";
+export type AllLanguages = EnglishUS | ArabicSA;
+
+type ExpressionContains = "contains";
+type ExpressionNotContains = "notContains";
+type ExpressionEmail = "email";
+type ExpressionGt = "gt";
+type ExpressionEmpty = "";
+type ExpressionFutureDates = "futureDates";
+type ExpressionRegularExpression = "regularExpression";
+export type ExpressionName =
+  | ExpressionContains
+  | ExpressionNotContains
+  | ExpressionEmail
+  | ExpressionGt
+  | ExpressionFutureDates
+  | ExpressionRegularExpression
+  | ExpressionEmpty;
+
+interface Expression {
+  name: ExpressionName;
+  value: string;
+}
+
+interface ValidationType {
+  expression: Expression;
+  parameter: Record<AllLanguages, string>;
+  errorMessage: Record<AllLanguages, string>;
+}
+
+export interface FormFieldOption {
+  label: { [key in AllLanguages]?: string };
+  value: string;
+  reference: string;
+}
+
 export interface FieldType {
+  type: InputControl;
   dataType: string;
-  displayStyle: DisplayStyle;
-  formFieldOptions: FormFieldOption[];
-  hasFormRules: boolean;
-  immutable: boolean;
-  inputControl: InputControl;
-  label: string;
+  label: { [key in AllLanguages]?: string };
   localizable: boolean;
-  multiple: boolean;
   name: string;
   repeatable: boolean;
   required: boolean;
   showLabel: boolean;
-  tooltip?: string;
-  placeholder?: string;
-  predefinedValue?: string| number;
-  text?:string;
-  showAsSwitcher?: boolean;
+  readOnly: boolean;
+  indexType: string;
+  fieldNamespace: string;
+  visibilityExpression: string;
+  fieldReference: string;
+  tip: { [key in AllLanguages]?: string };
 }
 
-interface ParagraphFieldType extends FieldType {
-  inputControl: ParagraphInputControl;
-  text: string;
-  predefinedValue: string;
-  tooltip: string;
+export interface FieldsetType extends FieldType {
+  type: FieldsetInputControl;
+  labelAtStructureLevel: boolean;
+  ddmStructureLayoutId: string;
+  predefinedValue: { [key in AllLanguages]?: string };
+  ddmStructureKey: string;
+  ddmStructureId: string;
+  upgradedStructure: boolean;
+  rows: any;
+  collapsible: boolean;
+  nestedFields: any;
+  normalizedStructure: boolean;
+}
+export interface ParagraphFieldType extends FieldType {
+  type: ParagraphInputControl;
+  text: { [key in AllLanguages]?: string };
+  predefinedValue: { [key in AllLanguages]?: string };
+  rulesConditionDisabled: boolean;
 }
 
-interface TextFieldType extends FieldType {
-  inputControl: TextInputControl;
-  placeholder: string;
-  predefinedValue: string;
-  tooltip: string;
+export interface TextFieldType extends FieldType {
+  type: TextInputControl;
+  placeholder: { [key in AllLanguages]?: string };
+  predefinedValue: { [key in AllLanguages]?: string };
+  tooltip: { [key in AllLanguages]?: string };
+  validation: ValidationType;
+  ddmDataProviderInstanceId: string;
+  ddmDataProviderInstanceOutput: string[];
+  confirmationLabel: { [key in AllLanguages]?: string };
+  displayStyle: DisplayStyle;
+  requireConfirmation: boolean;
+  hideField: boolean;
+  confirmationErrorMessage: { [key in AllLanguages]?: string };
+  direction: string[];
+  autocomplete: boolean;
+  htmlAutocompleteAttribute: string;
+  options: FormFieldOption[];
+  nativeField: boolean;
+  labelAtStructureLevel: boolean;
+  dataSourceType: string;
+  objectFieldName: string;
+  requiredErrorMessage: { [key in AllLanguages]?: string };
 }
 
-interface SelectFieldType extends FieldType {
-  inputControl: SelectInputControl;
-  predefinedValue: string;
-  tooltip: string;
-}
-interface RadioFieldType extends FieldType {
-  inputControl: RadioInputControl;
-  formFieldOptions: FormFieldOption[];
+export interface SelectFieldType extends FieldType {
+  type: SelectInputControl;
+  predefinedValue: { [key in AllLanguages]?: string[] };
+  labelAtStructureLevel: boolean;
+  ddmDataProviderInstanceId: string;
+  ddmDataProviderInstanceOutput: string[];
+  alphabeticalOrder: boolean;
+  options: FormFieldOption[];
+  nativeField: boolean;
   multiple: boolean;
-  predefinedValue: string;
+  dataSourceType: string;
+  objectFieldName: string;
+  requiredErrorMessage: { [key in AllLanguages]?: string };
+}
+export interface RadioFieldType extends FieldType {
+  type: RadioInputControl;
+  predefinedValue: { [key in AllLanguages]?: string };
   repeatable: boolean;
   required: boolean;
   showLabel: boolean;
-  tooltip: string;
+  objectFieldName: string;
+  inline: boolean;
+  options: FormFieldOption[];
+  nativeField: boolean;
+  labelAtStructureLevel: boolean;
+  requiredErrorMessage: { [key in AllLanguages]?: string };
 }
 
-interface CheckboxMultipleFieldType extends FieldType {
-  inputControl: CheckboxMultipleInputControl;
-  predefinedValue: string;
+export interface CheckboxMultipleFieldType extends FieldType {
+  type: CheckboxMultipleInputControl;
+  predefinedValue: { [key in AllLanguages]?: string[] };
   showAsSwitcher: boolean;
-  tooltip: string;
+  labelAtStructureLevel: boolean;
+  inline: boolean;
+  options: FormFieldOption[];
+  nativeField: boolean;
+  objectFieldName: string;
+  requiredErrorMessage: { [key in AllLanguages]?: string };
 }
 
-interface GridFieldType extends FieldType {
-  inputControl: GridInputControl;
+export interface GridFieldType extends FieldType {
+  type: GridInputControl;
   grid: GridType;
-  predefinedValue: string;
-  tooltip: string;
+  predefinedValue: { [key in AllLanguages]?: string };
+  tooltip: { [key in AllLanguages]?: string };
 }
 
-interface DateFieldType extends FieldType {
-  inputControl: DateInputControl;
-  predefinedValue: string;
-  tooltip: string;
+export interface DateFieldType extends FieldType {
+  type: DateInputControl;
+  predefinedValue: { [key in AllLanguages]?: string };
   validation: ValidationType;
+  labelAtStructureLevel: boolean;
+  nativeField: boolean;
+  htmlAutocompleteAttribute: string;
+  objectFieldName: string;
+  requiredErrorMessage: { [key in AllLanguages]?: string };
 }
 
-interface DateTimeFieldType extends FieldType {
-  inputControl: DateTimeInputControl;
-  predefinedValue: string;
-  tooltip: string;
+export interface DateTimeFieldType extends FieldType {
+  type: DateTimeInputControl;
+  predefinedValue: { [key in AllLanguages]?: string };
+  labelAtStructureLevel: boolean;
+  nativeField: boolean;
+  htmlAutocompleteAttribute: string;
 }
 
-interface NumericFieldType extends FieldType {
-  inputControl: NumericInputControl;
-  placeholder: string;
-  predefinedValue: string;
-  tooltip: string;
+export interface NumericFieldType extends FieldType {
+  type: NumericInputControl;
+  placeholder: { [key in AllLanguages]?: string };
+  predefinedValue: { [key in AllLanguages]?: string };
+  tooltip: { [key in AllLanguages]?: string };
+  characterOptions: boolean;
+  requireConfirmation: boolean;
+  confirmationErrorMessage: { [key in AllLanguages]?: string };
+  numericInputMask: any;
+  confirmationLabel: { [key in AllLanguages]?: string };
+  htmlAutocompleteAttribute: string;
+  validation: ValidationType;
+  direction: string[];
+  hideField: boolean;
+  inputMask: boolean;
+  inputMaskFormat: any;
+  nativeField: boolean;
+  labelAtStructureLevel: boolean;
+  objectFieldName: string;
+  requiredErrorMessage: { [key in AllLanguages]?: string };
 }
 
-interface CheckboxFieldType extends FieldType {
-  inputControl: CheckboxInputControl;
-  predefinedValue: string;
+export interface CheckboxFieldType extends FieldType {
+  type: CheckboxInputControl;
+  predefinedValue: { [key in AllLanguages]?: string };
   showAsSwitcher: boolean;
-  tooltip: string;
+  tooltip: { [key in AllLanguages]?: string };
 }
 
-interface ImageFieldType extends FieldType {
-  inputControl: ImageInputControl;
-  predefinedValue: string;
-  tooltip: string;
+export interface ImageFieldType extends FieldType {
+  type: ImageInputControl;
+  predefinedValue: { [key in AllLanguages]?: string };
+  objectFieldName: string;
+  requiredDescription: boolean;
+  requiredErrorMessage: { [key in AllLanguages]?: string };
 }
 
-interface RichTextFieldType extends FieldType {
-  inputControl: RichTextInputControl;
-  predefinedValue: string;
-  tooltip: string;
+export interface RichTextFieldType extends FieldType {
+  type: RichTextInputControl;
+  predefinedValue: { [key in AllLanguages]?: string };
+  objectFieldName: string;
+  requiredErrorMessage: { [key in AllLanguages]?: string };
 }
 
-interface DocumentLibraryFieldType extends FieldType {
-  inputControl: DocumentLibraryInputControl;
-  predefinedValue: string;
-  tooltip: string;
+export interface DocumentLibraryFieldType extends FieldType {
+  type: DocumentLibraryInputControl;
+  predefinedValue: { [key in AllLanguages]?: string };
+  labelAtStructureLevel: boolean;
+  allowGuestUsers: boolean;
+  objectFieldName: string;
+  requiredErrorMessage: { [key in AllLanguages]?: string };
 }
 
-interface ColorFieldType extends FieldType {
-  inputControl: ColorInputControl;
-  predefinedValue: string;
-  tooltip: string;
+export interface ColorFieldType extends FieldType {
+  type: ColorInputControl;
+  predefinedValue: { [key in AllLanguages]?: string };
+  objectFieldName: string;
+  requiredErrorMessage: { [key in AllLanguages]?: string };
 }
 
-interface SearchLocationFieldType extends FieldType {
-  inputControl: SearchLocationInputControl;
-  predefinedValue: string;
-  placeholder: string;
-  tooltip: string;
+export interface SearchLocationFieldType extends FieldType {
+  type: SearchLocationInputControl;
+  predefinedValue: { [key in AllLanguages]?: string };
+  placeholder: { [key in AllLanguages]?: string };
+  tooltip: { [key in AllLanguages]?: string };
 }
 
-interface SeparatorFieldType extends FieldType {
-  inputControl: SeparatorInputControl;
-  tooltip: string;
+export interface SeparatorFieldType extends FieldType {
+  type: SeparatorInputControl;
+  tooltip: { [key in AllLanguages]?: string };
 }
 
-type AllFieldsType =
+export type AllFieldsType =
   | ParagraphFieldType
   | TextFieldType
   | SelectFieldType
@@ -195,22 +305,25 @@ type AllFieldsType =
   | DocumentLibraryFieldType
   | ColorFieldType
   | SearchLocationFieldType
-  | SeparatorFieldType;
-
-//---------------------------------------------------------------
+  | SeparatorFieldType
+  | FieldsetType;
 
 export type FormPageType = {
-  formFields: AllFieldsType[];
-  headline: string;
-  text: string;
+  fields: AllFieldsType[];
+  headline: { [key in AllLanguages]?: string };
+  text: { [key in AllLanguages]?: string };
 };
-
-interface StructureType {
+interface SuccessPageType {
+  body: { [key in AllLanguages]?: string };
+  title: { [key in AllLanguages]?: string };
+  enabled: boolean;
+}
+interface DefinitionType {
+  availableLanguageIds?: AllLanguages[];
+  successPage?: SuccessPageType;
+  defaultLanguageId?: AllLanguages;
   formPages: FormPageType[];
 }
-
 export interface FormDefinitionType {
-  structure: StructureType;
+  definition: DefinitionType;
 }
-
-//---------------------------------------------------------------

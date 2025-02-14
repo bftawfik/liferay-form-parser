@@ -1,16 +1,25 @@
-import { FieldType, FormFieldOption } from "../../../../../types/forms";
+import { useState } from "react";
+import {
+  AllLanguages,
+  CheckboxMultipleFieldType,
+  FormFieldOption,
+} from "../../../../../types/forms";
 import { Checkbox, FormControlLabel, FormControl, Switch } from "@mui/material";
 import { FormLabelAndTooltip } from "../../HelperComponents/FormLabelAndTooltip";
-import { useState } from "react";
+import { getArrayValueOf, getValueOf } from "../../../../../helpers/lang";
 
 interface CheckBoxMultipleType {
-  formData: FieldType;
+  formData: CheckboxMultipleFieldType;
+  language: AllLanguages;
 }
 
-const CheckBoxMultiple: React.FC<CheckBoxMultipleType> = ({ formData }) => {
+const CheckBoxMultiple: React.FC<CheckBoxMultipleType> = ({
+  formData,
+  language,
+}) => {
   const [selectedValues, setSelectedValues] = useState<string[]>(
-    formData.predefinedValue
-      ? JSON.parse(formData.predefinedValue as string)
+    getArrayValueOf(formData.predefinedValue, language)
+      ? (getArrayValueOf(formData.predefinedValue, language) as string[])
       : []
   );
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,15 +30,15 @@ const CheckBoxMultiple: React.FC<CheckBoxMultipleType> = ({ formData }) => {
         : [...prev, value]
     );
   };
-  if (formData.formFieldOptions) {
+  if (formData.options) {
     return (
       <FormControl>
         <FormLabelAndTooltip
-          label={formData.label}
-          tooltip={formData.tooltip}
+          label={getValueOf(formData.label, language)}
+          tooltip={getValueOf(formData.tip, language)}
           showLabel={formData.showLabel}
         >
-          {formData.formFieldOptions.map((option: FormFieldOption) => {
+          {formData.options.map((option: FormFieldOption) => {
             return (
               <FormControlLabel
                 key={option.value}
@@ -48,7 +57,7 @@ const CheckBoxMultiple: React.FC<CheckBoxMultipleType> = ({ formData }) => {
                     />
                   )
                 }
-                label={option.label}
+                label={getValueOf(option.label, language)}
               />
             );
           })}

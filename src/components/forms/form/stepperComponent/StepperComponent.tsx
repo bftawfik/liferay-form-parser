@@ -2,14 +2,16 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
 import Box from "@mui/system/Box";
-import { FormPageType } from "../../../../types/forms";
+import { AllLanguages, FormPageType } from "../../../../types/forms";
 import Button from "@mui/material/Button";
 import { FormPage } from "../formPage/FormPage";
 import { FormField } from "../formField/FormField";
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
+import { getValueOf } from "../../../../helpers/lang";
 
 interface StepperComponentProps {
   pages: FormPageType[];
+  language: AllLanguages;
   activeStep: number;
   handleBack: () => void;
   handleNext: () => void;
@@ -18,6 +20,7 @@ interface StepperComponentProps {
 }
 export const StepperComponent: React.FC<StepperComponentProps> = ({
   pages,
+  language,
   activeStep,
   handleBack,
   handleNext,
@@ -30,8 +33,10 @@ export const StepperComponent: React.FC<StepperComponentProps> = ({
       {pages.length > 1 && (
         <Stepper activeStep={activeStep}>
           {pages.map((page, ndx) => (
-            <Step key={ndx + page.headline}>
-              <StepLabel>{page.headline || `Page ${ndx}`}</StepLabel>
+            <Step key={ndx + getValueOf(page.headline, language)}>
+              <StepLabel>
+                {getValueOf(page.headline, language) || `Page ${ndx}`}
+              </StepLabel>
             </Step>
           ))}
         </Stepper>
@@ -39,11 +44,15 @@ export const StepperComponent: React.FC<StepperComponentProps> = ({
 
       <Box sx={{ width: "100%" }}>
         {activePage && (
-          <FormPage headline={activePage?.headline} text={activePage?.text}>
-            {activePage?.formFields.map((formField) => (
+          <FormPage
+            headline={getValueOf(activePage?.headline, language)}
+            text={getValueOf(activePage?.text, language)}
+          >
+            {activePage?.fields.map((formField) => (
               <FormField
                 key={formField.name}
                 formData={formField}
+                language={language}
                 register={register}
                 errors={errors}
               />
@@ -72,9 +81,7 @@ export const StepperComponent: React.FC<StepperComponentProps> = ({
         </Box>
       ) : (
         <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-          <Button onClick={handleNext} type="submit">
-            Submit
-          </Button>
+          <Button type="submit">Submit</Button>
         </Box>
       )}
     </Box>

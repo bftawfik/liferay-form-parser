@@ -1,17 +1,20 @@
-import { FieldType } from "../../../../../types/forms";
+import { AllLanguages, NumericFieldType } from "../../../../../types/forms";
 import { FormLabelAndTooltip } from "../../HelperComponents/FormLabelAndTooltip";
 import { FormControl } from "@mui/material";
 import { NumberField } from "@base-ui-components/react/number-field";
 import { useState } from "react";
+import { getValueOf } from "../../../../../helpers/lang";
 
 interface NumericType {
-  formData: FieldType;
+  formData: NumericFieldType;
+  language: AllLanguages;
 }
 
-const Numeric: React.FC<NumericType> = ({ formData }) => {
+const Numeric: React.FC<NumericType> = ({ formData, language }) => {
   const [value, setValue] = useState<string>(
-    formData.predefinedValue !== "null" ? String(formData.predefinedValue) : ""
+    getValueOf(formData.predefinedValue, language)
   );
+  console.log(formData.predefinedValue);
 
   const isDecimal = formData.dataType === "double";
 
@@ -20,17 +23,15 @@ const Numeric: React.FC<NumericType> = ({ formData }) => {
       if (/^\d*\.?\d*$/.test(newValue)) {
         setValue(newValue);
       }
-    } else {
-      if (/^\d+$/.test(newValue)) {
-        setValue(newValue);
-      }
+    } else if (/^\d+$/.test(newValue)) {
+      setValue(newValue);
     }
   };
   return (
     <FormControl fullWidth>
       <FormLabelAndTooltip
-        label={formData.label}
-        tooltip={formData.tooltip}
+        label={getValueOf(formData.label, language)}
+        tooltip={getValueOf(formData.tip, language)}
         showLabel={formData.showLabel}
       >
         <NumberField.Root value={parseFloat(value)}>
@@ -41,7 +42,7 @@ const Numeric: React.FC<NumericType> = ({ formData }) => {
               step={isDecimal ? 0.01 : 1}
               value={value}
               onChange={(e) => handleChange(e.target.value)}
-              placeholder={formData.placeholder as string}
+              placeholder={getValueOf(formData.placeholder, language)}
               style={{
                 color: value ? "black" : "gray",
               }}
