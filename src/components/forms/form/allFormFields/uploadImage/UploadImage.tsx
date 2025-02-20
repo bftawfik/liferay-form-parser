@@ -4,11 +4,12 @@ import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
   AllLanguages,
-  DocumentLibraryFieldType,
   FieldType,
+  ImageFieldType,
 } from "../../../../../types/forms";
 import { FormLabelAndTooltip } from "../../HelperComponents/FormLabelAndTooltip";
 import { FormControl, List, ListItem, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { getValueOf } from "../../../../../helpers/lang";
 
 const VisuallyHiddenInput = styled("input")({
@@ -23,18 +24,35 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-interface UploadFilesType {
-  formData: DocumentLibraryFieldType;
+interface UploadImageType {
+  formData: ImageFieldType;
   language: AllLanguages;
 }
 
-const UploadFiles: React.FC<UploadFilesType> = ({ formData, language }) => {
-  const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
+const UploadImage: React.FC<UploadImageType> = ({ formData, language }) => {
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (formData.predefinedValue) {
+      try {
+        const parsedValue = JSON.parse(formData.predefinedValue as string);
+        if (parsedValue.url) {
+          setSelectedImages([parsedValue.url]);
+        }
+      } catch (error) {
+        console.error("Error parsing predefinedValue:", error);
+      }
+    }
+  }, [formData.predefinedValue]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const filesArray = Array.from(event.target.files);
-      setSelectedFiles(filesArray);
+      const imageUrls = filesArray
+        .filter((file) => file.type.startsWith("image/"))
+        .map((file) => URL.createObjectURL(file));
+
+      setSelectedImages((prevImages) => [...prevImages, ...imageUrls]);
     }
   };
 
@@ -51,20 +69,30 @@ const UploadFiles: React.FC<UploadFilesType> = ({ formData, language }) => {
           startIcon={<CloudUploadIcon />}
           sx={{ mt: 1 }}
         >
-          Upload files
+          Upload images
           <VisuallyHiddenInput
             type="file"
+            accept="image/*"
             onChange={handleFileChange}
             multiple
           />
         </Button>
       </FormLabelAndTooltip>
 
-      {selectedFiles.length > 0 && (
-        <List sx={{ mt: 2 }}>
-          {selectedFiles.map((file, index) => (
-            <ListItem key={index}>
-              <Typography variant="body2">{file.name}</Typography>
+      {selectedImages.length > 0 && (
+        <List sx={{ mt: 2, display: "flex", flexWrap: "wrap", gap: 2 }}>
+          {selectedImages.map((imageUrl, index) => (
+            <ListItem key={index} sx={{ listStyle: "none", p: 0 }}>
+              <img
+                src={imageUrl}
+                alt={`Uploaded ${index}`}
+                style={{
+                  width: 100,
+                  height: 100,
+                  objectFit: "cover",
+                  borderRadius: 8,
+                }}
+              />
             </ListItem>
           ))}
         </List>
@@ -73,4 +101,4 @@ const UploadFiles: React.FC<UploadFilesType> = ({ formData, language }) => {
   );
 };
 
-export default UploadFiles;
+export default UploadImage;

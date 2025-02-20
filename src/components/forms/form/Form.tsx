@@ -62,6 +62,7 @@ export const Form = () => {
       );
 
     try {
+      console.log("apiUrl", process.env.REACT_APP_API_SERVER_URL);
       const response = await fetch(`${apiURL}/${formid}`, {
         method: "GET",
         headers: {

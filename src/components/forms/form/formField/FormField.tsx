@@ -2,10 +2,12 @@ import {
   AllLanguages,
   CheckboxFieldType,
   CheckboxMultipleFieldType,
+  ColorFieldType,
   DateFieldType,
   DateTimeFieldType,
   DocumentLibraryFieldType,
   FieldType,
+  ImageFieldType,
   NumericFieldType,
   ParagraphFieldType,
   RadioFieldType,
@@ -38,12 +40,14 @@ import {
   DOCUMENT_LIBRARY,
   SEPARATOR,
   // GRID,
-  // IMAGE,
+  IMAGE,
   // RICH_TEXT,
-  // COLOR,
+  COLOR,
   // SEARCH_LOCATION,
   // FIELDSET,
 } from "../../../../constants/form";
+import ColorSelector from "../allFormFields/colorSelector/ColorSelector";
+import UploadImage from "../allFormFields/uploadImage/UploadImage";
 
 interface FormFieldType {
   formData: FieldType;
@@ -144,6 +148,22 @@ export const FormField: React.FC<FormFieldType> = ({
       formSelection = (
         <Separator
           formData={formData as SeparatorFieldType}
+          language={language}
+        />
+      );
+      break;
+    case COLOR:
+      formSelection = (
+        <ColorSelector
+          formData={formData as ColorFieldType}
+          language={language}
+        />
+      );
+      break;
+    case IMAGE:
+      formSelection = (
+        <UploadImage
+          formData={formData as ImageFieldType}
           language={language}
         />
       );

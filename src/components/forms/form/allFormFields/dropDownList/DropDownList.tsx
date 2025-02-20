@@ -55,6 +55,7 @@ const DropDownList: React.FC<DropDownListType> = ({ formData, language }) => {
           showLabel={formData.showLabel}
         >
           <Autocomplete
+            sx={{ mt: 2 }}
             multiple={formData.multiple}
             options={formData.options}
             value={formData.multiple ? selectedValues : selectedValue}

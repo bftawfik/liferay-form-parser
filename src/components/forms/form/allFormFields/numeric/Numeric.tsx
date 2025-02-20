@@ -37,7 +37,7 @@ const Numeric: React.FC<NumericType> = ({ formData, language }) => {
         <NumberField.Root value={parseFloat(value)}>
           <NumberField.Group>
             <NumberField.Input
-              className="p-2 border rounded"
+              className="p-2 border rounded mt-2"
               inputMode={isDecimal ? "decimal" : "numeric"}
               step={isDecimal ? 0.01 : 1}
               value={value}
@@ -45,6 +45,7 @@ const Numeric: React.FC<NumericType> = ({ formData, language }) => {
               placeholder={getValueOf(formData.placeholder, language)}
               style={{
                 color: value ? "black" : "gray",
+                width: "100%",
               }}
             />
           </NumberField.Group>
